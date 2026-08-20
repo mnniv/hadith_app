@@ -19,5 +19,5 @@ void main() {
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  runApp(MainApp(startRoute: Routes.home));
+  runApp(MainApp(startRoute: Routes.main));
 }
