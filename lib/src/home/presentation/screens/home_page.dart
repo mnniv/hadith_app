@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gharib/core/SharedWidgets/simple_snackbar.dart';
 import 'package:gharib/core/Theming/Colors/colors.dart';
 import 'package:gharib/core/Theming/Fonts/TextStyleManger.dart';
+import 'package:gharib/src/favorite/presentation/widgets/error_state.dart';
 import 'package:gharib/src/home/presentation/bloc/search_bloc.dart';
 import 'package:gharib/src/home/presentation/bloc/search_event.dart';
 import 'package:gharib/src/home/presentation/bloc/search_state.dart';
@@ -166,7 +167,13 @@ class HomePage extends StatelessWidget {
                             }
 
                             if (state is Error) {
-                              return Text('Error');
+                              return ErrorFavorite(
+                                errorMessage:
+                                    'حدثت مشكلة أثناء عرض النتائج , يرجى إعادة المحاولة .',
+                                onRetry: () => context.read<SearchBloc>().add(
+                                  SearchHadith(query: controller.text.trim()),
+                                ),
+                              );
                             }
                             if (state is SearchSeccess) {
                               final Hadiths = state.result;

@@ -15,37 +15,71 @@ class HadithCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color _getColor(String grade) {
+      switch (grade) {
+        case 'صحيح':
+          return AppColors.sahih;
+        case 'ضعيف':
+          return AppColors.daif;
+
+        case 'حسن':
+          return AppColors.hasan;
+
+        case 'موضوع':
+          return AppColors.mawdu;
+        default:
+          return AppColors.daif;
+      }
+    }
+
+    Color _getColorForground(String grade) {
+      switch (grade) {
+        case 'صحيح':
+          return AppColors.sahihForeground;
+        case 'ضعيف':
+          return AppColors.daifForeground;
+
+        case 'حسن':
+          return AppColors.hasanForeground;
+
+        case 'موضوع':
+          return AppColors.mawduForeground;
+        default:
+          return AppColors.daifForeground;
+      }
+    }
+
     return ContainerCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                decoration: BoxDecoration(
-                  color: AppColors.daif,
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.info, size: 18.sp, color: AppColors.gold),
-                    SizedBox(width: 6.w),
-                    Text(
-                      'الحكم: ${hadith.grade}',
-                      style: TextStyleManger.BlackTitle.copyWith(
-                        color: AppColors.gold,
-                        fontSize: 12.sp,
-                      ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+            decoration: BoxDecoration(
+              color: _getColorForground(hadith.grade),
+              borderRadius: BorderRadius.circular(16.r),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.info, size: 18.sp, color: _getColor(hadith.grade)),
+                SizedBox(width: 6.w),
+                Flexible(
+                  child: Text(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    'الحكم: ${hadith.grade}',
+                    style: TextStyleManger.BlackTitle.copyWith(
+                      color: _getColor(hadith.grade),
+                      fontSize: 12.sp,
                     ),
-                  ],
+                  ),
                 ),
-              ),
-
-              SizedBox(width: 48.w),
-            ],
+              ],
+            ),
           ),
+
+          SizedBox(width: 48.w),
           SizedBox(height: 20.h),
 
           Text(
@@ -66,7 +100,7 @@ class HadithCard extends StatelessWidget {
             ),
             child: Text.rich(
               style: TextStyleManger.BlackTitle.copyWith(
-                color: AppColors.muted,
+                color: AppColors.mutedForeground,
                 fontSize: 12.sp,
               ),
               TextSpan(
@@ -78,10 +112,7 @@ class HadithCard extends StatelessWidget {
                       fontSize: 12.sp,
                     ),
                   ),
-                  TextSpan(
-                    text:
-                        'نص الحكم كما ورد: خطأ [يعني في إسناده] لا شك فيه عند أحد من أهل العلم بالحديث',
-                  ),
+                  TextSpan(text: hadith.grade),
                 ],
               ),
             ),

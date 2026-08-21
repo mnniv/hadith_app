@@ -11,6 +11,7 @@ import 'package:gharib/src/favorite/presentation/bloc/favorite_state.dart';
 import 'package:gharib/src/favorite/presentation/delete%20bloc/delete_favorite_bloc.dart';
 import 'package:gharib/src/favorite/presentation/delete%20bloc/delete_favorite_event.dart';
 import 'package:gharib/src/favorite/presentation/widgets/Empty_favorite.dart';
+import 'package:gharib/src/favorite/presentation/widgets/error_state.dart';
 import 'package:gharib/src/favorite/presentation/widgets/favorite_card.dart';
 import 'package:gharib/src/favorite/presentation/widgets/favorite_card_shimmer.dart';
 import 'package:go_router/go_router.dart';
@@ -64,7 +65,10 @@ class FavoritePage extends StatelessWidget {
                       }
 
                       if (state is FavoriteError) {
-                        return Text('Error');
+                        return ErrorFavorite(
+                          onRetry: () =>
+                              context.read<FavoriteBloc>().add(GetFavorites()),
+                        );
                       }
                       if (state is FavoriteSeccess) {
                         final Hadiths = state.favorites;
@@ -100,6 +104,8 @@ class FavoritePage extends StatelessWidget {
                                         context: context,
                                       ),
                                     );
+
+                                    context.pop();
                                   },
                                 );
                               },
