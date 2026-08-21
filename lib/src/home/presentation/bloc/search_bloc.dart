@@ -10,7 +10,7 @@ import 'package:gharib/src/home/presentation/bloc/search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc() : super(SearchInitial()) {
     on<SearchHadith>((event, emit) async {
-      emit(SearchInitial());
+      emit(SearchLoading());
 
       try {
         final failureOrSecces = await SearchHadithCase(

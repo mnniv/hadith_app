@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gharib/core/Theming/Colors/colors.dart';
 import 'package:gharib/core/Theming/Fonts/TextStyleManger.dart';
+import 'package:gharib/core/routing/Routes.dart';
+import 'package:gharib/src/home/domin/entity/hadith_entity.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'container_card.dart';
 
 class HadithCard extends StatelessWidget {
-  const HadithCard({super.key});
+  final HadithEntity hadith;
+  const HadithCard({super.key, required this.hadith});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class HadithCard extends StatelessWidget {
                     Icon(Icons.info, size: 18.sp, color: AppColors.gold),
                     SizedBox(width: 6.w),
                     Text(
-                      'الحكم: ضعيف',
+                      'الحكم: ${hadith.grade}',
                       style: TextStyleManger.BlackTitle.copyWith(
                         color: AppColors.gold,
                         fontSize: 12.sp,
@@ -38,21 +43,16 @@ class HadithCard extends StatelessWidget {
                 ),
               ),
 
-              Text(
-                'مطابقة 100%',
-                style: TextStyleManger.BlackTitle.copyWith(
-                  color: AppColors.foreground,
-                  fontSize: 12.sp,
-                ),
-              ),
+              SizedBox(width: 48.w),
             ],
           ),
           SizedBox(height: 20.h),
 
           Text(
-            'إنَّما الأعمالُ بالنياتِ . . . .',
+            hadith.text,
             style: TextStyleManger.BlackTitle.copyWith(
               color: AppColors.foreground,
+              fontFamily: GoogleFonts.amiri().fontFamily,
               fontSize: 16.sp,
             ),
           ),
@@ -97,7 +97,7 @@ class HadithCard extends StatelessWidget {
               ),
               SizedBox(width: 6.w),
               Text(
-                'الراوي: أبو سعيد الخدري',
+                'الراوي: ${hadith.narrator}',
                 style: TextStyleManger.BlackTitle.copyWith(
                   color: AppColors.foreground,
                   fontSize: 12.sp,
@@ -117,7 +117,7 @@ class HadithCard extends StatelessWidget {
               SizedBox(width: 6.w),
 
               Text(
-                'المصدر: التمهيد',
+                'المصدر: ${hadith.book}',
                 style: TextStyleManger.BlackTitle.copyWith(
                   color: AppColors.foreground,
                   fontSize: 12.sp,
@@ -128,7 +128,7 @@ class HadithCard extends StatelessWidget {
           SizedBox(height: 6.h),
 
           Text(
-            'المحدّث: ابن عبدالبر',
+            'المحدّث: ${hadith.scholar}',
             style: TextStyleManger.BlackTitle.copyWith(
               color: AppColors.foreground,
               fontSize: 12.sp,
@@ -137,7 +137,7 @@ class HadithCard extends StatelessWidget {
           SizedBox(height: 6.h),
 
           Text(
-            'الصفحة أو الرقم: 21/270',
+            'الصفحة أو الرقم: ${hadith.numberOrPage}',
             style: TextStyleManger.BlackTitle.copyWith(
               color: AppColors.foreground,
               fontSize: 12.sp,
@@ -162,22 +162,25 @@ class HadithCard extends StatelessWidget {
                   fontSize: 12.sp,
                 ),
               ),
-              Row(
-                children: [
-                  Text(
-                    'التفاصيل',
-                    style: TextStyleManger.BlackTitle.copyWith(
-                      color: AppColors.gold,
-                      fontSize: 12.sp,
+              InkWell(
+                onTap: () => context.push(Routes.hadithDetails, extra: hadith),
+                child: Row(
+                  children: [
+                    Text(
+                      'التفاصيل',
+                      style: TextStyleManger.BlackTitle.copyWith(
+                        color: AppColors.gold,
+                        fontSize: 12.sp,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 6.w),
-                  Icon(
-                    CupertinoIcons.arrow_left,
-                    color: AppColors.gold,
-                    size: 16.sp,
-                  ),
-                ],
+                    SizedBox(width: 6.w),
+                    Icon(
+                      CupertinoIcons.arrow_left,
+                      color: AppColors.gold,
+                      size: 16.sp,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

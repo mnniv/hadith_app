@@ -15,16 +15,18 @@ Future<bool> showExitConfirmationDialog({
   Function? bottonFunctionConfirmation,
   Function? bottonFunctionCansled,
 }) async {
-  final Function confirmAction = bottonFunctionConfirmation ?? () {
-    print("Default confirm action executed.");
-    Navigator.of(context).pop(true);
-
-  };
-  final Function bottocanleactionn = bottonFunctionCansled ?? () {
-    print("Default confirm action executed.");
-    Navigator.of(context).pop(false);
-
-  };
+  final Function confirmAction =
+      bottonFunctionConfirmation ??
+      () {
+        print("Default confirm action executed.");
+        Navigator.of(context).pop(true);
+      };
+  final Function bottocanleactionn =
+      bottonFunctionCansled ??
+      () {
+        print("Default confirm action executed.");
+        Navigator.of(context).pop(false);
+      };
 
   bool? result = await showDialog<bool>(
     context: context,
@@ -37,17 +39,11 @@ Future<bool> showExitConfirmationDialog({
             borderRadius: BorderRadius.circular(20.r),
           ),
           insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.card,
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: 320.w,
-              minWidth: 280.w,
-            ),
+            constraints: BoxConstraints(maxWidth: 320.w, minWidth: 280.w),
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 24.h,
-                horizontal: 20.w,
-              ),
+              padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,6 +54,7 @@ Future<bool> showExitConfirmationDialog({
                       title.tr,
                       style: TextStyleManger.Mediem25afacadablac.copyWith(
                         fontSize: 20.sp,
+                        color: AppColors.foreground,
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,
@@ -71,7 +68,7 @@ Future<bool> showExitConfirmationDialog({
                       style: TextStyle(
                         fontSize: 16.sp,
                         height: 1.4,
-                        color: Colors.black.withOpacity(0.7),
+                        color: AppColors.mutedForeground,
                       ),
                     ),
                   ),
@@ -81,8 +78,8 @@ Future<bool> showExitConfirmationDialog({
                       children: [
                         _DialogButton(
                           text: confirmText.tr,
-                          backgroundColor: ColorManger.primaryColor,
-                          textColor: ColorManger.whiteColor,
+                          backgroundColor: AppColors.gold,
+                          textColor: AppColors.background,
                           onPressed: () {
                             confirmAction();
                           },
@@ -139,16 +136,16 @@ class _DialogButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
             side: hasBorder
-                ? BorderSide(
-              color: ColorManger.primaryColor,
-              width: 1.5.w,
-            )
+                ? BorderSide(color: ColorManger.primaryColor, width: 1.5.w)
                 : BorderSide.none,
           ),
         ),
         child: Text(
-            text,
-            style: TextStyleManger.Bold20AlegreyaSansWhite
+          text,
+          style: TextStyleManger.BlackTitle.copyWith(
+            color: textColor,
+            fontSize: 16.sp,
+          ),
         ),
       ),
     );
