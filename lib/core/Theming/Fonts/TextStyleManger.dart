@@ -9,38 +9,26 @@ class TextStyleManger {
     color: ColorManger.BlacColor,
     fontWeight: FontWeight.bold,
     fontSize: 24.sp,
-    fontFamily: GoogleFonts.manrope().fontFamily,
+    fontFamily: GoogleFonts.cairo().fontFamily,
   );
   static TextStyle BlackTitle2 = TextStyle(
     color: ColorManger.BlacColor,
     fontWeight: FontWeight.bold,
     fontSize: 20.sp,
-    fontFamily: GoogleFonts.inter().fontFamily,
+    fontFamily: GoogleFonts.cairo().fontFamily,
   );
   static TextStyle WhiteSmall = TextStyle(
     color: ColorManger.whiteColor,
     fontWeight: FontWeight.w300,
     fontSize: 12.sp,
-    fontFamily: GoogleFonts.inter().fontFamily,
-  );
-  static TextStyle BlueSmall = TextStyle(
-    color: ColorManger.primaryColor,
-    fontWeight: FontWeight.w300,
-    fontSize: 12.sp,
-    fontFamily: GoogleFonts.inter().fontFamily,
-  );
-  static TextStyle greysmall= TextStyle(
-    color: ColorManger.hintcolor,
-    fontWeight: FontWeight.w300,
-    fontSize: 12.sp,
-    fontFamily: GoogleFonts.inter().fontFamily,
+    fontFamily: GoogleFonts.cairo().fontFamily,
   );
 
   static TextStyle BlackSmall = TextStyle(
     color: ColorManger.Black,
     fontWeight: FontWeight.w300,
     fontSize: 12.sp,
-    fontFamily: GoogleFonts.inter().fontFamily,
+    fontFamily: GoogleFonts.cairo().fontFamily,
   );
 
   static TextStyle BlackSubTitle = TextStyle(
@@ -59,7 +47,7 @@ class TextStyleManger {
     color: ColorManger.Black,
     fontWeight: FontWeight.bold,
     fontSize: 20.sp,
-    fontFamily: GoogleFonts.inter().fontFamily,
+    fontFamily: GoogleFonts.cairo().fontFamily,
   );
   static TextStyle WhiteBtn = TextStyle(
     color: ColorManger.whiteColor,

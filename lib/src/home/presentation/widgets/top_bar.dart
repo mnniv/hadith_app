@@ -32,15 +32,7 @@ class TopNavigationBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'غريب',
-            style: TextStyleManger.BlackTitle.copyWith(
-              fontSize: 22.sp,
-              fontWeight: FontWeight.w500,
-              fontFamily: GoogleFonts.amiri().fontFamily,
-              color: AppColors.gold,
-            ),
-          ),
+          PulsingMishkatText(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(items.length, (index) {
@@ -101,6 +93,67 @@ class TopNavigationBar extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class PulsingMishkatText extends StatefulWidget {
+  const PulsingMishkatText({Key? key}) : super(key: key);
+
+  @override
+  State<PulsingMishkatText> createState() => _PulsingMishkatTextState();
+}
+
+class _PulsingMishkatTextState extends State<PulsingMishkatText>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _glowAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat(reverse: true);
+
+    _glowAnimation = Tween<double>(
+      begin: 2.0,
+      end: 12.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Text(
+          'مشكاة',
+          style: TextStyleManger.BlackTitle.copyWith(
+            fontSize: 22.sp,
+            fontWeight: FontWeight.w500,
+            fontFamily: GoogleFonts.amiri().fontFamily,
+            color: AppColors.gold,
+            shadows: [
+              Shadow(
+                color: AppColors.gold.withOpacity(0.8),
+                blurRadius: _glowAnimation.value,
+              ),
+              Shadow(
+                color: AppColors.gold.withOpacity(0.4),
+                blurRadius: _glowAnimation.value * 2,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

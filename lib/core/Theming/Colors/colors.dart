@@ -29,6 +29,7 @@ class ColorManger {
 
 abstract class AppColors {
   // Core Surface & Text Colors
+
   static const Color background = Color(0xFF232832);
   static const Color foreground = Color(0xFFF3F3F3);
   static const Color card = Color(0xFF343B48);
