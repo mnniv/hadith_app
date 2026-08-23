@@ -65,11 +65,15 @@ class FavoriteCard extends StatelessWidget {
               children: [
                 Icon(Icons.info, size: 18.sp, color: _getColor(hadith.grade)),
                 SizedBox(width: 6.w),
-                Text(
-                  'الحكم: ${hadith.grade}',
-                  style: TextStyleManger.BlackTitle.copyWith(
-                    color: _getColor(hadith.grade),
-                    fontSize: 12.sp,
+                Flexible(
+                  child: Text(
+                    'الحكم: ${hadith.grade}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyleManger.BlackTitle.copyWith(
+                      color: _getColor(hadith.grade),
+                      fontSize: 12.sp,
+                    ),
                   ),
                 ),
               ],
@@ -90,7 +94,7 @@ class FavoriteCard extends StatelessWidget {
           Text(
             hadith.book,
             style: TextStyleManger.BlackTitle.copyWith(
-              color: AppColors.background,
+              color: AppColors.mutedForeground,
               fontSize: 12.sp,
             ),
           ),

@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
     final router = AppRouter.buildRouter(startRoute);
 
     return ScreenUtilInit(
-      designSize: const Size(412, 915),
+      designSize: const Size(360, 800),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {

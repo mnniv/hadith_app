@@ -14,6 +14,8 @@ class SearchLoading extends SearchState {}
 class NoInternet extends SearchState {}
 
 class Error extends SearchState {}
+class SearchEmpty extends SearchState {}
+
 
 class SearchSeccess extends SearchState {
   final SearchResult? result;

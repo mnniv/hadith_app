@@ -9,9 +9,10 @@ class TopNavigationBar extends StatelessWidget {
   final ValueChanged<int> onTabSelected;
 
   const TopNavigationBar({
+    Key? key,
     required this.selectedIndex,
     required this.onTabSelected,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,8 @@ class TopNavigationBar extends StatelessWidget {
     ];
 
     return Container(
-      margin: EdgeInsets.all(10.w),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      margin: EdgeInsets.all(8.r),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: AppColors.goldForeground,
         borderRadius: BorderRadius.circular(20.r),
@@ -32,64 +33,71 @@ class TopNavigationBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          PulsingMishkatText(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(items.length, (index) {
-              final isSelected = selectedIndex == index;
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4).w,
-                child: InkWell(
-                  onTap: () => onTabSelected(index),
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 8.h,
-                    ),
+          // عنوان مشكاة
+          const PulsingMishkatText(),
 
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              items[index]['label'] as String,
-                              style: TextStyleManger.BlackTitle.copyWith(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: isSelected
-                                    ? AppColors.accentForeground
-                                    : AppColors.mutedForeground,
-                              ),
+          SizedBox(width: 4.w),
+
+          // عناصر القائمة مغلفة بـ Flexible لمنع الـ Overflow على الشاشات الصغرى
+          Flexible(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(items.length, (index) {
+                final isSelected = selectedIndex == index;
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  child: InkWell(
+                    onTap: () => onTabSelected(index),
+                    borderRadius: BorderRadius.circular(8.r),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: EdgeInsets.symmetric(
+                        horizontal:
+                            8.w, // تقليل الحشو ليتناسب مع الشاشات الضيقة
+                        vertical: 6.h,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            items[index]['label'] as String,
+                            style: TextStyleManger.BlackTitle.copyWith(
+                              fontSize:
+                                  12.sp, // تقليل حجم الخط قليلاً للـ Responsive
+                              fontWeight: FontWeight.w500,
+                              color: isSelected
+                                  ? AppColors.accentForeground
+                                  : AppColors.mutedForeground,
                             ),
-                            SizedBox(height: 2.h),
-                            isSelected
-                                ? Container(
-                                    height: 6.h,
-                                    width: 6.w,
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.gold,
-                                          spreadRadius: 1,
-                                          blurRadius: 1,
-                                        ),
-                                      ],
-                                      shape: BoxShape.circle,
-                                      color: AppColors.gold,
-                                    ),
-                                  )
-                                : SizedBox.shrink(),
-                          ],
-                        ),
-                      ],
+                          ),
+                          SizedBox(height: 2.h),
+                          isSelected
+                              ? Container(
+                                  height: 5.r,
+                                  width: 5.r,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.gold,
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                      ),
+                                    ],
+                                    shape: BoxShape.circle,
+                                    color: AppColors.gold,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 5.r,
+                                ), // تثبيت الارتفاع لمنع اهتزاز النص
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              }),
+            ),
           ),
         ],
       ),
@@ -137,7 +145,7 @@ class _PulsingMishkatTextState extends State<PulsingMishkatText>
         return Text(
           'مشكاة',
           style: TextStyleManger.BlackTitle.copyWith(
-            fontSize: 22.sp,
+            fontSize: 18.sp, // تقليل الحجم ليتناسب مع الشاشات الصغيرة
             fontWeight: FontWeight.w500,
             fontFamily: GoogleFonts.amiri().fontFamily,
             color: AppColors.gold,

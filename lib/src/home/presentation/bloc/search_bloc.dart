@@ -23,6 +23,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           (failure) {
             if (failure.errMessage == "No internet connection") {
               emit(NoInternet());
+            } else if (failure.errMessage ==
+                "No hadith found in the response") {
+              emit(SearchEmpty());
+              print(failure.errMessage);
             } else {
               print(failure.errMessage);
               emit(Error());

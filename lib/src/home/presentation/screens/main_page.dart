@@ -31,10 +31,10 @@ class MainPage extends StatelessWidget {
 
               final shouldExit = await showExitConfirmationDialog(
                 context: context,
-                title: 'quit_registration_title'.tr,
-                content: 'quit_registration_content'.tr,
-                confirmText: 'confirm_quit'.tr,
-                cancelText: 'annuler'.tr,
+                title: 'هل تريد الخروج من التطبيق؟',
+                content: 'سيتم إغلاق التطبيق إذا قمت بتأكيد الخروج.',
+                confirmText: 'موافق',
+                cancelText: 'إلغاء',
                 bottonFunctionConfirmation: () {
                   context.pop(true);
                 },

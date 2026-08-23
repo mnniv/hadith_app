@@ -19,23 +19,59 @@ class HomeRemoteDataSource {
   factory HomeRemoteDataSource() {
     return _instance;
   }
+Future<SearchResultModel> SearchHadith({required String query, int? page = 1}) async {
+    try {
+      final response = await api.get(
+        BaseUrl.Baseurl + ApiConstant.searchHadith,
+        queryParameters: {
+          'value': query,
+          'page': page,
+        },
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Accept': 'application/json',
+          'User-Agent': 'Flutter-App',
+        },
+      );
 
-  Future<SearchResultModel> SearchHadith({required String query}) async {
-    final response = await api.get(
-      BaseUrl.Baseurl + ApiConstant.searchHadith + query,
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        'Accept': 'application/json',
-        'User-Agent': 'Flutter-App',
-      },
-    );
+      if (response is Map<String, dynamic>) {
+        final String? message = response['message']?.toString();
+        final String? status = response['status']?.toString();
 
-    if (response is Map<String, dynamic>) {
-      return SearchResultModel.fromJson(response);
+        if (status == 'error' ||
+            (message != null && message.toLowerCase().contains('no hadith found'))) {
+          return SearchResultModel(
+            hadiths: [],
+            total: 0,
+            page: 0,
+            hasNextPage: false,
+            hasPreviousPage: false,
+          );
+        }
+
+        return SearchResultModel.fromJson(response);
+      }
+
+      throw ServerException(
+        ErrorModel(errorMessage: 'Failed to load Hadiths', status: 500),
+      );
+    } on ServerException catch (e) {
+      // If the server responded with an error status (e.g. 404/400) for "Not Found"
+      final String errorMessage = e.errorModel.errorMessage ?? '';
+      
+      if (errorMessage.toLowerCase().contains('no hadith found') ||
+          errorMessage.toLowerCase().contains('not found')) {
+        return SearchResultModel(
+          hadiths: [],
+          total: 0,
+          page: 0,
+          hasNextPage: false,
+          hasPreviousPage: false,
+        );
+      }
+
+      // Re-throw if it's a legitimate server error (e.g., 500 internal server error)
+      rethrow;
     }
-
-    throw ServerException(
-      ErrorModel(errorMessage: 'Failed to load Hadiths', status: 500),
-    );
   }
 }

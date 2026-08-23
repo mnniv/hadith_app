@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
             backgroundColor: AppColors.background,
             body: SafeArea(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.w),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -41,6 +41,7 @@ class HomePage extends StatelessWidget {
 
                       Text(
                         'منصة علمية للتحقق من صحة الأحاديث النبوية',
+                        textAlign: TextAlign.center,
                         style: TextStyleManger.BlackTitle.copyWith(
                           color: AppColors.gold,
                           fontSize: 16.sp,
@@ -151,7 +152,17 @@ class HomePage extends StatelessWidget {
                           }
 
                           if (state is NoInternet) {
-                            return Text('No internet');
+                            return ErrorFavorite(
+                              errorMessage:
+                                  'لا يوجد اتصال بالانترنت , يرجى التأكد من أنك متصل بالشبكة .',
+                              onRetry: () => context.read<SearchBloc>().add(
+                                SearchHadith(query: controller.text.trim()),
+                              ),
+                            );
+                          }
+
+                          if (state is SearchEmpty) {
+                            return NoResultFound();
                           }
 
                           if (state is Error) {
@@ -168,7 +179,7 @@ class HomePage extends StatelessWidget {
 
                             if (Hadiths != null) {
                               if (Hadiths.hadiths.isEmpty) {
-                                return NoResaultFound();
+                                return NoResultFound();
                               }
 
                               return Column(
