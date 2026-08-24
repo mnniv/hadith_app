@@ -15,23 +15,54 @@ import 'package:gharib/src/home/presentation/widgets/hadith_card_shimmer.dart';
 import 'package:gharib/src/home/presentation/widgets/no_resault.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  final TextEditingController controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  SearchBloc? _searchBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final position = _scrollController.position;
+    if (position.pixels >= position.maxScrollExtent - 200) {
+      _searchBloc?.add(const LoadMoreHadiths());
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchBloc(),
       child: Builder(
         builder: (context) {
+          _searchBloc = context.read<SearchBloc>();
           return Scaffold(
             backgroundColor: AppColors.background,
             body: SafeArea(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.w),
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: Column(
                     children: [
                       SizedBox(height: 20.h),
@@ -184,14 +215,14 @@ class HomePage extends StatelessWidget {
 
                               return Column(
                                 children: [
-                                  Text(
-                                    'وجدنا ${Hadiths.hadiths.length} نتيجة مشابهة، معروضة حسب نسبة المطابقة.',
-                                    style: TextStyleManger.BlackTitle.copyWith(
-                                      color: AppColors.foreground,
-                                      fontSize: 14.sp,
-                                    ),
-                                  ),
-                                  SizedBox(height: 20.h),
+                                  // Text(
+                                  //   'وجدنا ${Hadiths.total} نتيجة مشابهة، معروضة حسب نسبة المطابقة.',
+                                  //   style: TextStyleManger.BlackTitle.copyWith(
+                                  //     color: AppColors.foreground,
+                                  //     fontSize: 14.sp,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(height: 20.h),
                                   ListView.separated(
                                     shrinkWrap: true,
                                     physics:
@@ -204,6 +235,12 @@ class HomePage extends StatelessWidget {
                                       return HadithCard(hadith: hadith);
                                     },
                                   ),
+                                  if (state.isLoadingMore) ...[
+                                    SizedBox(height: 16.h),
+                                    const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ],
                                 ],
                               );
                             }

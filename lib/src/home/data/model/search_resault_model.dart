@@ -9,48 +9,49 @@ class SearchResultModel extends SearchResult {
     required super.hasNextPage,
     required super.hasPreviousPage,
   });
-factory SearchResultModel.fromJson(Map<String, dynamic> json) {
-  final metadata =
-      json['metadata'] as Map<String, dynamic>? ?? {};
+  factory SearchResultModel.fromJson(Map<String, dynamic> json) {
+    final metadata = json['metadata'] as Map<String, dynamic>? ?? {};
 
-  final data =
-      json['data'] as List<dynamic>? ?? [];
+    final data = json['data'] as List<dynamic>? ?? [];
 
-  return SearchResultModel(
-    hadiths: data
-        .whereType<Map<String, dynamic>>()
-        .map(HadithModel.fromJson)
-        .toList(),
+    return SearchResultModel(
+      hadiths: data
+          .whereType<Map<String, dynamic>>()
+          .map(HadithModel.fromJson)
+          .toList(),
 
-    total: _parseInt(metadata['length']),
+      total: _parseInt(
+        metadata['total'] ??
+            metadata['totalItems'] ??
+            metadata['totalCount'] ??
+            metadata['currentPageCount'] ??
+            metadata['length'],
+      ),
 
-    page: _parseInt(metadata['page'], fallback: 1),
+      page: _parseInt(metadata['page'], fallback: 1),
 
-    hasNextPage: metadata['hasNextPage'] == true,
+      hasNextPage: metadata['hasNextPage'] == true,
 
-    hasPreviousPage: metadata['hasPrevPage'] == true,
-  );
-}
-
-static int _parseInt(
-  dynamic value, {
-  int fallback = 0,
-}) {
-  if (value is int) {
-    return value;
+      hasPreviousPage: metadata['hasPrevPage'] == true,
+    );
   }
 
-  if (value is String) {
-    return int.tryParse(value) ?? fallback;
-  }
+  static int _parseInt(dynamic value, {int fallback = 0}) {
+    if (value is int) {
+      return value;
+    }
 
-  return fallback;
-}
+    if (value is String) {
+      return int.tryParse(value) ?? fallback;
+    }
+
+    return fallback;
+  }
 
   Map<String, dynamic> toJson() {
     return {
       'metadata': {
-        'length': total,
+        'total': total,
         'page': page,
         'hasNextPage': hasNextPage,
         'hasPrevPage': hasPreviousPage,

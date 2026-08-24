@@ -19,7 +19,7 @@ class HomeRemoteDataSource {
   factory HomeRemoteDataSource() {
     return _instance;
   }
-Future<SearchResultModel> SearchHadith({required String query, int? page = 1}) async {
+Future<SearchResultModel> SearchHadith({required String query, int? page }) async {
     try {
       final response = await api.get(
         BaseUrl.Baseurl + ApiConstant.searchHadith,

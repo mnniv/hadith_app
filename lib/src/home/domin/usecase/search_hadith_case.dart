@@ -6,7 +6,7 @@ import '../repostreis/home_repostreis.dart';
 class SearchHadithCase {
   final HomeRepostreis repostris;
   SearchHadithCase({required this.repostris});
-  Future<Either<Failure, SearchResult?>> call(String query) async {
-    return repostris.searchHadith(query);
+  Future<Either<Failure, SearchResult?>> call(String query , int? page) async {
+    return repostris.searchHadith(query , page);
   }
 }

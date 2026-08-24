@@ -17,10 +17,10 @@ class HomeRepostreisImpl extends HomeRepostreis {
   });
 
   @override
-  Future<Either<Failure, SearchResult>> searchHadith(String query) async {
+  Future<Either<Failure, SearchResult>> searchHadith(String query , int? page) async {
     if (await NetworkUtil.hasInternet()) {
       try {
-        final response = await homeRemoteDataSource.SearchHadith(query: query);
+        final response = await homeRemoteDataSource.SearchHadith(query: query, page: page);
         return Right(response);
       } on ServerException catch (e) {
         final int? statusCode = e.errorModel.status;
